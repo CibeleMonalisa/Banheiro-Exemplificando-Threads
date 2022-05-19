@@ -1,52 +1,101 @@
 package cibele.teste;
 
 public class Banheiro {
-	
+
+	private boolean estaSujo = true;
+
 	public void Numero1() {
-		
-//currentThread me devolve o thread atual sendo executado e assim √© possivel pegar o nome
-	    String nome = Thread.currentThread().getName();
 
-	    System.out.println(nome + " batendo na porta");
-		
-//synchronizer diz que estas tarefas n√£o podem ser executadas em paralelo (um thread depois o outro)
-	    synchronized (this) {
+		String nome = Thread.currentThread().getName();
+		System.out.println(nome + " batendo na porta");
 
-	        System.out.println(nome + " entrando no banheiro");
-	        System.out.println(nome + " fazendo coisa rapida");
-
-	        try {
-	            Thread.sleep(8000);
-	        } catch (InterruptedException e) {
-	            e.printStackTrace();
+		synchronized (this) {
+			System.out.println(nome + " entrando no banheiro");
+			
+			while (this.estaSujo) { //novo, trocando if com while
+	            espera(nome);
 	        }
+			
+			System.out.println(nome + " fazendo coisa rapida");
 
-	        System.out.println(nome + " dando descarga");
-	        System.out.println(nome + " lavando a mao");
-	        System.out.println(nome + " saindo do banheiro");
-	    }
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			this.estaSujo = true;
+			
+			System.out.println(nome + " dando descarga");
+			System.out.println(nome + " lavando a mao");
+			System.out.println(nome + " saindo do banheiro");
+		}
 	}
 
 	public void Numero2() {
 
-	    String nome = Thread.currentThread().getName();
+		String nome = Thread.currentThread().getName();
+		System.out.println(nome + " batendo na porta");
 
+		synchronized (this) {
+			System.out.println(nome + " entrando no banheiro");
+			
+			while (this.estaSujo) { //novo, trocando if com while
+	            espera(nome);
+	        }
+			
+			System.out.println(nome + " fazendo coisa demorada");
+
+			try {
+				Thread.sleep(10000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			this.estaSujo = true;
+
+			System.out.println(nome + " dando descarga");
+			System.out.println(nome + " lavando a mao");
+			System.out.println(nome + " saindo do banheiro");
+		}
+	}
+	
+	public void limpa() {
+
+	    String nome = Thread.currentThread().getName();
 	    System.out.println(nome + " batendo na porta");
 
 	    synchronized (this) {
 
 	        System.out.println(nome + " entrando no banheiro");
-	        System.out.println(nome + " fazendo coisa demorada");
+
+	        if (!this.estaSujo) {
+	            System.out.println(nome + ", n„o est· sujo, vou sair");
+	            return;
+	        }
+
+	        System.out.println(nome + " limpando o banheiro");
+	        this.estaSujo = false;
 
 	        try {
-	            Thread.sleep(15000);
+	            Thread.sleep(13000);
 	        } catch (InterruptedException e) {
 	            e.printStackTrace();
 	        }
 
-	        System.out.println(nome + " dando descarga");
-	        System.out.println(nome + " lavando a mao");
+	        this.notifyAll();
+
 	        System.out.println(nome + " saindo do banheiro");
 	    }
+	}
+
+	private void espera(String nome) {
+
+		System.out.println(nome + " O banheiro est· sujo");
+		try {
+			this.wait();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 }
