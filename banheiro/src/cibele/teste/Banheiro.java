@@ -3,7 +3,8 @@ package cibele.teste;
 public class Banheiro {
 	
 	public void Numero1() {
-
+		
+//currentThread me devolve o thread atual sendo executado e assim é possivel pegar o nome
 	    String nome = Thread.currentThread().getName();
 
 	    System.out.println(nome + " batendo na porta");
