@@ -5,10 +5,11 @@ public class Banheiro {
 	private boolean estaSujo = true;
 
 	public void Numero1() {
-
+		//currentThread me devolve o thread atual sendo executado e assim é possivel pegar o nome
 		String nome = Thread.currentThread().getName();
 		System.out.println(nome + " batendo na porta");
 
+		//synchronizer diz que estas tarefas não podem ser executadas em paralelo (um thread depois o outro)
 		synchronized (this) {
 			System.out.println(nome + " entrando no banheiro");
 			

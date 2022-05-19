@@ -11,6 +11,7 @@ public class Principal {
 		Thread convidado2 = new Thread(new TarefaNumero2(banheiro), "Pedro");
 		Thread limpeza = new Thread(new TarefaLimpeza(banheiro), "Funcionário");
 		limpeza.setDaemon(true); //faz com que a thread limpeza dependa de outras threads
+		
 		limpeza.start();
 		convidado1.start();
 		convidado2.start();
