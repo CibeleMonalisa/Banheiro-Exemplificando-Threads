@@ -8,7 +8,8 @@ public class Banheiro {
 	    String nome = Thread.currentThread().getName();
 
 	    System.out.println(nome + " batendo na porta");
-
+		
+//synchronizer diz que estas tarefas não podem ser executadas em paralelo (um thread depois o outro)
 	    synchronized (this) {
 
 	        System.out.println(nome + " entrando no banheiro");
